@@ -49,8 +49,8 @@ server.post("/projects", newProject, (req, res) => {
   projects.push(id, title, tasks);
   return res.json({ id, title, tasks });
 });
-
-server.put("/project/:id", checkProjectExists, (req, res) => {
+//alterando projeto
+server.put("/projects/:id", checkProjectExists, (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
   if (!title) {
@@ -59,6 +59,13 @@ server.put("/project/:id", checkProjectExists, (req, res) => {
   const project = projects.find(p => p.id === id);
   project.title = title;
   return res.json(project);
+});
+//excluindo projeto
+server.delete("/projects/:id", checkProjectExists, (req, res) => {
+  const { id } = req.params;
+  const project = projects.find(p => p.id === id);
+  projects.splice(project.id, 1);
+  return res.send();
 });
 
 server.listen(3000);
