@@ -50,4 +50,15 @@ server.post("/projects", newProject, (req, res) => {
   return res.json({ id, title, tasks });
 });
 
+server.put("/project/:id", checkProjectExists, (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+  if (!title) {
+    return res.status(400).json({ error: "Required title." });
+  }
+  const project = projects.find(p => p.id === id);
+  project.title = title;
+  return res.json(project);
+});
+
 server.listen(3000);
