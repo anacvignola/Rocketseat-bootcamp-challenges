@@ -17,7 +17,7 @@ server.use(requisitions);
 
 function checkProjectExists(req, res, next) {
   const { id } = req.params;
-  const project = projects.find(p => String(p.id) === id);
+  const project = projects.find(p => String(p.id) === id); //foi colocado String para comparar corretamente
   if (!project) {
     return res.status(400).json({ error: 'Project not found' });
   }
@@ -41,6 +41,11 @@ function newProject(req, res, next) {
 //listando todos os projetos
 server.get('/projects', (req, res) => {
   return res.json(projects);
+});
+//listando um projeto
+server.get('/projects/:id', checkProjectExists, (req, res) => {
+  const { id } = req.params;
+  return res.json(projects[id]);
 });
 //cadastrando novos projetos
 server.post('/projects', newProject, (req, res) => {
