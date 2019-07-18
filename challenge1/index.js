@@ -67,5 +67,13 @@ server.delete("/projects/:id", checkProjectExists, (req, res) => {
   projects.splice(project.id, 1);
   return res.send();
 });
-
+//incluindo as tarefas no projeto
+server.post("/projects/:id/tasks", checkProjectExists, (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+  const project = project.find(p => p.id === id);
+  project.tasks.push(title);
+  return res.json(project);
+});
+//inicia servidor na porta 3000
 server.listen(3000);
